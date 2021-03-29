@@ -29,7 +29,7 @@ var livros = [{
         title: "Desejo sombrio",
         rate: 9.4,
         img: "https://img.wattpad.com/cover/261253546-512-k18099.jpg",
-        resumo: "",
+        resumo: "Aylla tenta fugir de seu passado sombrio, por isso ela se muda para New Orleans, para recomeçar. Porém, ela conhece um garoto misterioso. Mal sabe ela que esse garoto pode ter alguma relação com o seu passado.",
         link: "https://www.wattpad.com/1036171105-desejo-sombrio-introdu%C3%A7%C3%A3o",
     },
     {
@@ -241,4 +241,181 @@ function createBox(livro) {
     a.classList.add("link")
     a.innerHTML = "Leia-me!"
 
+}
+
+var novoArrayMovies = []
+
+novoArrayMovies.push(filme("",))
+
+ordenar()
+imprime()
+
+function ordenar() {
+  var ordem = document.getElementById("ordenarFilmes").value
+
+  if (ordem == "anoCronologico") {
+    arraySort(novoArrayMovies, "anoLancamento")
+  }
+
+  arraySort(novoArrayMovies, ordem)
+  imprime()
+}
+
+function imprime() {
+  var montaDiv, anoImpresso, filtro
+  var ordem = document.getElementById("ordenarFilmes").value
+
+  var div = document.querySelector('.container-total') //Mapeia o HTML em busca de um elemento com a classe '.container-total'
+  div.innerHTML = ""
+
+  filtro = ordem == "anoCronologico" ? "Cronologia: " : "Lançamento: "
+
+  for (var x = 0; x < novoArrayMovies.length; x++) {
+    var tagH2 = document.createElement('h2')
+    var tagA = document.createElement('a')
+    var tagImage = document.createElement('img')
+    var tagDivFilme = document.createElement('div') //Cria um elemento '<div>'
+
+    tagH2.innerHTML = novoArrayMovies[x].nome + "<br>" + filtro + 
+      parseInt(ordem == "anoCronologico" ? novoArrayMovies[x].anoCronologico : novoArrayMovies[x].anoLancamento)
+    tagA.href = novoArrayMovies[x].linkPagina
+    tagA.target = "_blank"
+    tagImage.src = novoArrayMovies[x].linkImagem
+    tagImage.alt = novoArrayMovies[x].nome
+    tagDivFilme.classList.add('container-movies') //Adiciono uma classe ao elemento
+    tagA.appendChild(tagDivFilme)
+    tagDivFilme.appendChild(tagH2)
+    tagDivFilme.appendChild(tagImage)
+    div.appendChild(tagA) // Adiciono a div filme dentro da div principal
+  }
+}
+
+function habilitaContainerCadastro() {
+  document.querySelector('.container-cadastro').classList.add('ativo')
+}
+
+function desabilitaContainerCadastro() {
+  document.querySelector('.container-cadastro').classList.remove('ativo')
+  limparCamposCadastro()
+}
+
+function salvarFilme() {
+  tocarSom()
+  var nomeFilme = document.querySelector('#nomeFilme').value
+  var anoLancamento = document.querySelector('#anoLancamentoFilme').value
+  var imagem = document.querySelector('#linkImagemFilme').value
+  var anoCronologico = document.querySelector('#anoCronologiaFilme').value
+  var linkPagina = document.querySelector('#linkImdbFilme').value
+  var linkTrailer = document.querySelector('#linkTrailerFilme').value
+
+  var validacao = validaDadosCadastro(nomeFilme, anoLancamento, imagem, anoCronologico, linkPagina, linkTrailer)
+
+  if (validacao.status) {
+    novoArrayMovies.push(filme(nomeFilme, anoLancamento, imagem, anoCronologico, linkPagina))
+    desabilitaContainerCadastro()
+    ordenar()
+    imprime()
+  } else {
+    imprimeErro(validacao.msg)
+  }
+}
+
+function limparCamposCadastro() {
+  document.querySelector('#nomeFilme').value = ""
+  document.querySelector('#anoLancamentoFilme').value = ""
+  document.querySelector('#linkImagemFilme').value = ""
+  document.querySelector('#anoCronologiaFilme').value = ""
+  document.querySelector('#linkImdbFilme').value = ""
+  document.querySelector('#linkTrailerFilme').value = ""
+}
+
+function filme(nomeFilme, anoLanc, imagem, anoCron, linkPag, linkTrailer) {
+  var filme = {
+    nome: nomeFilme,
+    anoLancamento: anoLanc,
+    linkImagem: imagem,
+    anoCronologico: anoCron,
+    linkPagina: linkPag,
+    linkTrailer: linkTrailer
+  }
+
+  return filme;
+}
+
+function arraySort(vet, x) {
+  vet.sort(function compare(a, b) {
+    return a[x] < b[x] ? -1 : a[x] > b[x] ? 1 : 0
+  })
+
+  return vet
+}
+
+function validaDadosCadastro(nome, anoLancamento, enderecoImagem, anoCronologico, enderecoResumo, enderecoTrailer) {
+  var retorno = {
+    "status": true,
+    "msg": ""
+  }
+
+  if (!(enderecoImagem.endsWith(".jpg") ||
+        enderecoImagem.endsWith(".png") ||
+        enderecoImagem.endsWith(".jfif"))) {
+
+    retorno.status = false
+    retorno.msg = "Imagem inválida"
+    return retorno
+  }
+
+  if (!isValidHttpUrl(enderecoImagem) ||
+      !isValidHttpUrl(enderecoResumo) ||
+      !isValidHttpUrl(enderecoTrailer)) {
+
+    retorno.status = false
+    retorno.msg = "Endereço inválido"
+    return retorno
+  }
+
+  return retorno
+}
+
+function isValidHttpUrl(endereco) {
+  let url
+
+  try {
+    url = new URL(endereco)
+  } catch (_) {
+    return false
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:"
+}
+
+function tocarSom() {
+  var audioMario = new Audio("https://protettordelinks.com/wp-content/baixar/mario_moeda_efeito_sonoro_toquesengracadosmp3.com.mp3")
+  var audio = new Audio("https://www.myinstants.com/media/sounds/avengers_assemble_l.mp3")
+  //audioMario.play()
+  }
+
+function imprimeErro(mensagem) {
+  var tagBody = document.querySelector('body')
+  var tagDiv = document.createElement('div')
+  var tagSpan = document.createElement('span')
+
+  tagSpan.innerHTML = mensagem
+  tagSpan.classList.add('animate__animated')
+  tagSpan.classList.add('animate__rollIn')
+  tagDiv.appendChild(tagSpan)
+  tagDiv.addEventListener('click', fecharPush)
+  tagDiv.setAttribute('id', 'modalErro') //id = atributo, modal = o valor do atributo
+  tagBody.appendChild(tagDiv)
+
+  setTimeout(() => {
+    if (!!tagDiv) {
+      //tagDiv.remove()
+    }
+  }, 3000)
+}
+
+function fecharPush(){
+  var tagDiv = document.querySelector('#modalErro')
+  tagDiv.remove()
 }

@@ -11,10 +11,156 @@ body {
   align-items: center;
   font-family: 'Roboto Mono', monospace;
   text-align: center;
-  background-image: url('https://cdn.discordapp.com/attachments/759232309445918732/825434692572020747/background.png');
+  background-image: url('https://cdn.discordapp.com/attachments/759232309445918732/825912983796449330/background2.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
+}
+
+#modalErro {
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  color: white;
+  text-align: center;
+  position: fixed;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  overflow: hidden;
+}
+
+#modalErro span {
+  width: 300px;
+  height: 100px;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /*   animation: mostraDivErro 0.25s ease-in-out; */
+  left: 0;
+}
+
+@keyframes mostraDivErro {
+  from {
+    left: -100%;
+  }
+
+  to {
+    left: 0;
+  }
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.container-opcoes {
+  margin: 20px;
+  -webkit-text-stroke-width: 0px;
+  -webkit-text-stroke-color: #000;
+  font-size: 1em;
+  color: #ffd9d9;
+  font-size: 16px;
+}
+
+select {
+  width: 120px;
+  height: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 0 10px;
+  background-color: rgb(175, 0, 0);
+  color: white;
+  border: 2px solid white;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+select option {
+  font-size: 15px;
+  margin: 5px;
+  outline: none !important;
+  color: rgb(255, 255, 255);
+  -webkit-appearance: none;
+}
+
+button {
+  width: 121px;
+  height: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: rgb(175, 0, 0);
+  color: white;
+  border: 2px solid white;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.container-cadastro {
+  width: 300px;
+  height: 0;
+  border-radius: 10px;
+  padding: 10px 0;
+  color: white;
+  background-color: rgb(175, 0, 0);
+  flex-direction: column;
+  align-items: center;
+  transition: all 1s ease-in-out;
+  overflow: hidden;
+  opacity: 0;
+  display: inline-flex;
+  position: relative;
+}
+
+.container-cadastro.ativo {
+  height: 420px;
+  opacity: 1;
+  transition: all 1s ease-in-out;
+}
+
+fieldset {
+  border: 2px solid white;
+  border-radius: 5px;
+  position: absolute;
+}
+
+.container-cadastro input {
+  width: 226px;
+  height: 30px;
+  color: white;
+  font-size: 16px;
+  padding: 0 10px;
+  border-radius: 3px;
+  background-color: transparent;
+  border: 2px solid white;
+  outline: none !important;
+  /*Remove a borda de quando clica no campo*/
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.container-cadastro-campo {
+  margin: 5px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.container-cadastro button {
+  margin: 5px 0 0;
 }
 
 .container {
@@ -325,9 +471,11 @@ div.mv-item-infor>h6,
   margin-left: 15px;
   margin-right: 15px;
 }
-.rate{
+
+.rate {
   color: #ffe600;
 }
+
 .movie-item-style-2 .mv-item-infor .rate span {
   color: #ffffff;
   font-size: 16px;
